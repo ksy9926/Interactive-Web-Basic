@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>인터랙티브</title>
+    <style>
+        body {
+            background-color: black;
+            position: relative;
+            cursor: none;
+        }
+        h1 {
+            color: #fff;
+        }
+        .cursor_item{
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            top: 0;
+            left: 0;
+        }
+    </style>
+    <script>
+        let cursor_item;
+        let h1;
+        let x = 0;
+        let y = 0;
+        let mx = 0;
+        let my = 0;
+        let speed = 0.03;
+
+        // window.onload: 화면이 로드가 다 된 후에 실행
+        window.onload = function(){
+            h1 = document.getElementsByTagName("h1")[0];
+            cursor_item = document.getElementsByClassName("cursor_item")[0];
+            // 위와 같은 코드를 querySelector를 이용시 . 이 붙고 [0]이 없음을 주의
+            // let cursor_item = document.querySelector(".cursor_item");
+            
+            window.addEventListener("mousemove", mouseFunc, false);
+
+            function mouseFunc(e){
+                x = e.clientX;
+                y = e.clientY;
+            }
+            loop();
+        }
+
+        // requestAnimationFrame 사용시 1/60으로 애니메이션이 제한.
+        // 최적화된 속도로 부드러운 애니메이션을 표현하면서 성능은 최대한 확보 가능.
+        function loop(){
+            mx += (x - mx) * speed;
+            my += (y - my) * speed;
+            h1.innerHTML = `X: ${x}, mx: ${mx}`;
+            cursor_item.style.transform = `translate(${mx}px, ${my}px)`;
+            window.requestAnimationFrame(loop);
+        }
+        
+    </script>
+</head>
+<body>
+    <h1>test</h1>
+    <div class="cursor_item"></div>
+</body>
+</html>
